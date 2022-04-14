@@ -10,7 +10,7 @@ use function Sodium\add;
 
 class LobbyController extends Controller
 {
-    public function getLobbyView(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
+    public function getLobbyView()
     {
         return view('lobby');
     }
