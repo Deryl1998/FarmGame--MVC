@@ -3,7 +3,10 @@
     <style>
         .button {
             display: block;
-            width: 100px !important;
+            font-size: 2.5vw !important;
+            width: auto !important;
+            min-width: 100px !important;
+            padding: 1vw;
             padding-top: 15px!important;
             height: auto !important;
             min-height: 60px !important;
@@ -16,7 +19,7 @@
         .divItem{
             visibility: inherit;
             display: inline-block;
-            margin: 2px !important;
+            margin: 0.2vw !important;
             width:  auto !important;
             height: auto !important;
         }
@@ -46,7 +49,7 @@
 
         a.snapchat:hover img {
             visibility: visible;
-            background-color: rgba(100,255,50,0.7);
+            background-color: rgba(255,255,255,0.8);
             opacity: 1;
             top: 1%;
         }
@@ -55,79 +58,81 @@
 </head>
     <div id="mainMenu" class="childDiv" style="float: left; display: flex;overflow: auto;">
         <div class="childDiv" style="display:inline-flex;">
-            <div class="divItem"> <a onclick="changeVisibilityMenu()" class="button"> Trade </a></div>
-            <div class="divItem"> <a class="button" href="{{URL::to('throw')}}">Throw</a></div>
+            <div style="margin: 1vw !important;" id="tradeBtn" class="divItem"> <a onclick="changeVisibilityMenu()" class="button"> Wymień zwierzę </a></div>
+            <div style="margin: 1vw !important;" id="trowBtn" class="divItem"> <a class="button" href="{{action('App\Http\Controllers\gamePlayController@throwDice')}}">Rzuć kościami</a></div>
+            <div id="endRoundBtn" style="display: none;width: auto!important;" class="divItem"> <a href="{{action("App\Http\Controllers\gamePlayController@changePlayer")}}" class="button"> Zakończ ture </a></div>
             <div id="greenCell" class="btn divItem" style="visibility: hidden;border-color: green !important; border-width: medium !important;">
-                <img id="img1" src="{{URL::asset('/image/rabbit.png')}}" alt="profile Pic" height="100" width="100">
+                <img id="img1" style="height:15vh; width:8vw;" src="{{URL::asset('/image/rabbit.png')}}" alt="profile Pic">
             </div>
             <div id="redCell" class="btn divItem"  style="visibility: hidden;border-color: red !important; border-width: medium !important;">
-                <img id="img2" src="{{URL::asset('/image/rabbit.png')}}" alt="profile Pic" height="100" width="100">
+                <img id="img2" style="height:15vh; width:8vw;" src="{{URL::asset('/image/rabbit.png')}}" alt="profile Pic">
             </div>
         </div>
     </div>
 
     <div id="tradeMenu" class="childDiv" style="float: left; display: none;overflow: auto;">
         <div class="childDiv" style="display:inline-flex;">
-            <div class="divItem"><a onclick="changeVisibilityMenu()" class="button"> Back </a></div>
-            <div class="btn divItem" style="border-color: darkred;border-width: 2px "> <a onclick="tradeForm('rabbit')"><img src="{{URL::asset('/image/rabbit.png')}}" alt="profile Pic" height="80" width="80"></a> </div>
-            <div class="btn divItem" style="border-color: darkred;border-width: 2px "> <a onclick="tradeForm('sheep')"><img src="{{URL::asset('/image/sheep.png')}}" alt="profile Pic" height="80" width="80"></a></div>
-            <div class="btn divItem" style="border-color: darkred;border-width: 2px "> <a onclick="tradeForm('pig')"><img src="{{URL::asset('/image/pig.png')}}" alt="profile Pic" height="80" width="80"></a></div>
-            <div class="btn divItem" style="border-color: darkred;border-width: 2px "> <a onclick="tradeForm('cow')"><img src="{{URL::asset('/image/cow.png')}}" alt="profile Pic" height="80" width="80"></a></div>
-            <div class="btn divItem" style="border-color: darkred;border-width: 2px "> <a onclick="tradeForm('horse')"><img src="{{URL::asset('/image/horse.png')}}" alt="profile Pic" height="80" width="80"></a></div>
-            <div class="btn divItem" style="border-color: darkred;border-width: 2px "> <a onclick="tradeForm('small_dog')"><img src="{{URL::asset('/image/small_dog.png')}}" alt="profile Pic" height="80" width="80"></a></div>
-            <div class="btn divItem" style="border-color: darkred;border-width: 2px " > <a onclick="tradeForm('big_dog')"><img src="{{URL::asset('/image/big_dog.png')}}" alt="profile Pic" height="80" width="80"></a></div>
-            <div style="display: inline-block; margin-top: 2px; margin-left: 15px; visibility: inherit; height: 80px !important;">
-                <a class="snapchat button"> INFO <img src="{{URL::asset('/image/tradeTable.png')}}" alt="profile Pic"> </a><br>
+            <div class="divItem"><a onclick="changeVisibilityMenu()" class="button"> Cofnij </a></div>
+            <div class="btn divItem" style="border-color: darkred;border-width: 2px;"> <a onclick="tradeForm('rabbit')"><img  style="width: 4.5vw; height: 10vh;" src="{{URL::asset('/image/rabbit.png')}}" alt="profile Pic" ></a> </div>
+            <div class="btn divItem" style="border-color: darkred;border-width: 2px "> <a onclick="tradeForm('sheep')"><img style="width: 4.5vw; height: 10vh;" src="{{URL::asset('/image/sheep.png')}}" alt="profile Pic" ></a></div>
+            <div class="btn divItem" style="border-color: darkred;border-width: 2px "> <a onclick="tradeForm('pig')"><img style="width: 4.5vw; height: 10vh;" src="{{URL::asset('/image/pig.png')}}" alt="profile Pic" ></a></div>
+            <div class="btn divItem" style="border-color: darkred;border-width: 2px "> <a onclick="tradeForm('cow')"><img style="width: 4.5vw; height: 10vh;" src="{{URL::asset('/image/cow.png')}}" alt="profile Pic" ></a></div>
+            <div class="btn divItem" style="border-color: darkred;border-width: 2px "> <a onclick="tradeForm('horse')"><img style="width: 4.5vw; height: 10vh;" src="{{URL::asset('/image/horse.png')}}" alt="profile Pic"></a></div>
+            <div class="btn divItem" style="border-color: darkred;border-width: 2px "> <a onclick="tradeForm('small_dog')"><img style="width: 4.5vw; height: 10vh;" src="{{URL::asset('/image/small_dog.png')}}" alt="profile Pic" ></a></div>
+            <div class="btn divItem" style="border-color: darkred;border-width: 2px " > <a onclick="tradeForm('big_dog')"><img  style="width: 4.5vw; height: 10vh;" src="{{URL::asset('/image/big_dog.png')}}" alt="profile Pic" ></a></div>
+            <div class="btn divItem">
+                <a class="button snapchat" style="font-weight: 800 !important;"> INFO <img src="{{URL::asset('/image/tradeTable.png')}}" alt="profile Pic"> </a>
             </div>
         </div>
     </div>
 
     <div id="tradeDiv" class="childDiv" style="float: left; display: none;overflow: auto;">
         <div class="childDiv" style="display:inline-flex;">
-            <div class="divItem"><a onclick="changeVisibilityTradeMenu()" class="button"> Back </a> </div>
-            <div class="btn divItem" style="border-color: darkred;border-width: 3px"><img id="currentAnimal" src="{{URL::asset('/image/sheep.png')}}" alt="" height="80" width="80"></div>
+            <div class="divItem"><a onclick="changeVisibilityTradeMenu()" class="button"> Cofnij </a> </div>
+            <div class="btn divItem" style="border-color: darkred;border-width: 3px;font-size: 30px;font-family: fantasy;">
+                <img id="currentAnimal" src="{{URL::asset('/image/sheep.png')}}" alt=""  style="height:10vh; width:6vw;"></div>
             <div class="btn" style="margin-left: 4px; border-color: #02000c;border-width: 2px; display: inline-flex">
             <div class="btn divItem" id="rabbit">
-                <img src="{{URL::asset('/image/rabbit.png')}}" alt="profile Pic" height="80" width="80"><br>
-                <label id="rabbitl"></label><br>
-                <input style="width: 50px" type="button" onclick="trade('rabbits','rabbitl')" id="rabbitInput" name="rabbitInput" value="-">
+                <img src="{{URL::asset('/image/rabbit.png')}}" alt="profile Pic"  style="height:7vh; width:4vw;"><br>
+                <label style="font-size: 1.5vw" id="rabbitl"></label><br>
+                <input style="font-size: 1vw" type="button" onclick="trade('rabbits','rabbitl')" id="rabbitInput" name="rabbitInput" value="-">
             </div>
             <div class="btn divItem" id="sheep">
-                <img src="{{URL::asset('/image/sheep.png')}}" alt="profile Pic" height="80" width="80"><br>
-                <label id="sheepl"></label><br>
-                <input type="button" id="sheepInput" onclick="trade('sheep','sheepl')" name="sheepInput" value="-">
+                <img src="{{URL::asset('/image/sheep.png')}}" alt="profile Pic" style="height:7vh; width:4vw;"><br>
+                <label style="font-size: 1.5vw" id="sheepl"></label><br>
+                <input style="font-size: 1vw" type="button" id="sheepInput" onclick="trade('sheep','sheepl')" name="sheepInput" value="-">
             </div>
             <div class="btn divItem" id="pig" >
-                <img src="{{URL::asset('/image/pig.png')}}" alt="profile Pic" height="80" width="80"><br>
-                <label id="pigl"></label><br>
-                <input type="button" id="pigInput" onclick="trade('pigs','pigl')" name="pigInput" value="-"><br>
+                <img src="{{URL::asset('/image/pig.png')}}" alt="profile Pic" style="height:7vh; width:4vw;"><br>
+                <label style="font-size: 1.5vw" id="pigl"></label><br>
+                <input style="font-size: 1vw" type="button" id="pigInput" onclick="trade('pigs','pigl')" name="pigInput" value="-"><br>
             </div>
             <div class="btn divItem" id="cow" >
-                <img src="{{URL::asset('/image/cow.png')}}" alt="profile Pic" height="80" width="80"><br>
-                <label id="cowl"></label><br>
-                <input type="button" id="cowInput" onclick="trade('cows','cowl')" name="cowInput" value="-">
+                <img src="{{URL::asset('/image/cow.png')}}" alt="profile Pic" style="height:7vh; width:4vw;"><br>
+                <label style="font-size: 1.5vw" id="cowl"></label><br>
+                <input style="font-size: 1vw" type="button" id="cowInput" onclick="trade('cows','cowl')" name="cowInput" value="-">
             </div>
             <div class="btn divItem" id="horse" >
-                <img src="{{URL::asset('/image/horse.png')}}" alt="profile Pic" height="80" width="80"><br>
-                <label id="horsel"></label><br>
-                <input type="button" id="horseInput"  onclick="trade('horses','horsel')" name="horseInput" value="-">
+                <img src="{{URL::asset('/image/horse.png')}}" alt="profile Pic" style="height:7vh; width:4vw;"><br>
+                <label style="font-size: 1.5vw" id="horsel"></label><br>
+                <input style="font-size: 1vw" type="button" id="horseInput"  onclick="trade('horses','horsel')" name="horseInput" value="-">
             </div>
             <div class="btn divItem" id="small_dog" >
-                <img src="{{URL::asset('/image/small_dog.png')}}" alt="profile Pic" height="80" width="80"><br>
-                <label id="small_dogl"></label><br>
-                <input type="button" id="small_dogInput" onclick="trade('small_dogs','small_dogl')" name="small_dogInput" value="-">
+                <img src="{{URL::asset('/image/small_dog.png')}}" alt="profile Pic" style="height:7vh; width:4vw;"><br>
+                <label style="font-size: 1.5vw" id="small_dogl"></label><br>
+                <input style="font-size: 1vw" type="button" id="small_dogInput" onclick="trade('small_dogs','small_dogl')" name="small_dogInput" value="-">
             </div>
             <div class="btn divItem" id="big_dog" >
-                <img src="{{URL::asset('/image/big_dog.png')}}" alt="profile Pic" height="80" width="80"><br>
-                <label id="big_dogl"></label> <br>
-                <input type="button" id="big_dogInput"  onclick="trade('big_dogs','big_dogl')" name="big_dogInput" value="-">
+                <img src="{{URL::asset('/image/big_dog.png')}}" alt="profile Pic" style="height:7vh; width:4vw;"><br>
+                <label style="font-size: 1.5vw" id="big_dogl"></label> <br>
+                <input style="font-size: 1vw" type="button" id="big_dogInput"  onclick="trade('big_dogs','big_dogl')" name="big_dogInput" value="-">
             </div>
             </div>
         </div>
     </div>
 
     <div id="winnerMenu" class="childDiv" style="float: left; display: none;overflow: auto">
-        <p style="font-size: 45px; padding-right: 20px"> Winner:</p>
+        <p style="font-size: 45px; padding-right: 20px"> Zwyciezca:</p>
         <p style="font-size: 55px">{{$currentPlayer}}</p>
         <div class="divItem" style="float: right !important; margin-left: 10% !important;">
             <form action="{{action('App\Http\Controllers\gamePlayController@playAgain')}}" method="POST" role="form">
@@ -168,7 +173,7 @@
                 sheep:2,
                 cow:-3,
                 horse:-6,
-                small_dog:-3
+                big_dog:-3
             },
             cow:{
                 rabbit:36,
@@ -271,8 +276,8 @@
                     x.style.display = 'inline'
                     var input = document.getElementById(animalType+'Input')
                     var label = document.getElementById(animalType+'l')
-                    input.value= animalsToTrade[animalType] >0?'Sell':'Buy'
-                    label.textContent = animalsToTrade[animalType]
+                    input.value= animalsToTrade[animalType] >0?'Dostaniesz\n'+animalsToTrade[animalType]+"szt":'Kupisz\n1szt'
+                    label.textContent = animalsToTrade[animalType]<0?animalsToTrade[animalType]:-1
                 }
                 else x.style.display = 'none'
             }
@@ -293,6 +298,13 @@
                 winnerMenu.style.display = 'flex';
             }
         }
+        function checkEndRound(){
+            if("{{$endRound}}"== false) return;
+            document.getElementById('endRoundBtn').style.display='flex';
+            document.getElementById('tradeBtn').style.display='none';
+            document.getElementById('trowBtn').style.display='none';
+        }
+        checkEndRound();
         checkWinner()
         checkThrows()
     </script>

@@ -1,15 +1,15 @@
 
 <table id="players_list" class="table" style="border-width: 2px; text-align: center; width: 100% !important;">
 <thead>
-<tr style="font-size: 20px;">
-    <td style="padding: 0.2rem" scope="col">Name</td>
-    <td style="padding: 0.2rem" scope="col">Rabbits</td>
-    <td style="padding: 0.2rem" scope="col">Sheep</td>
-    <td style="padding: 0.2rem" >Pigs</td>
-    <td style="padding: 0.2rem" >Cows</td>
-    <td style="padding: 0.2rem" >Horses</td>
-    <td style="padding: 0.2rem" >Small Dogs</td>
-    <td style="padding: 0.2rem" >Big Dogs</td>
+<tr style="font-size: 2vw;">
+    <td style="padding: 0.2rem">Gracz</td>
+    <td style="padding: 0.2rem" >Króliki</td>
+    <td style="padding: 0.2rem">Owce</td>
+    <td style="padding: 0.2rem" >Świnie</td>
+    <td style="padding: 0.2rem" >Krowy</td>
+    <td style="padding: 0.2rem" >Konie</td>
+    <td style="padding: 0.2rem" >Mały pies</td>
+    <td style="padding: 0.2rem" >Duży pies</td>
 </tr>
 <tr style="background-color: transparent;">
     <td></td>
@@ -23,9 +23,9 @@
 </tr>
 </thead>
 
-<tbody style="font-size: 30px !important;">
-<tr style="background-color: rgba(0,0,0,0.2)">
-<th> Farm</th>
+<tbody>
+<tr style="font-size: 3.2vw !important;color: #641f05;;border-top: 1px;border-bottom: 6px; border-style: solid !important;">
+<th> Zagroda</th>
 <td> {{$farm['rabbits']}}</td>
 <td> {{$farm['sheep']}}</td>
 <td> {{$farm['pigs']}}</td>
@@ -35,7 +35,7 @@
 <td> {{$farm['big_dogs']}}</td>
 </tr>
 @foreach($players as $player)
-<tr style="font-size: 25px !important;">
+<tr style="font-size: 3vw !important;border: #000000">
     <th> {{$player['name']}}</th>
     <td> {{$player['rabbits']}}</td>
     <td> {{$player['sheep']}}</td>

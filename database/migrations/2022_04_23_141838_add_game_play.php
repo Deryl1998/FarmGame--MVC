@@ -36,6 +36,9 @@ return new class extends Migration
             $table->foreign('player_4')->references('id')->on('players')->onDelete('cascade');
             $table->foreign('current_player')->references('id')->on('players')->onDelete('cascade');
         });
+        Schema::table('rooms',function (Blueprint $table){
+            $table->foreign('game_play_id')->references('id')->on('game_play')->onDelete('cascade');
+        });
     }
 
     /**

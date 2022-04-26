@@ -13,7 +13,7 @@
             background-size: cover !important;
         }
         .boardDiv{
-            background-color: rgba(255,255,255,0.4);
+            background-color: rgba(255,255,255,0.6);
             overflow: auto;
             width: 98%;
             height: 70%;
@@ -37,7 +37,7 @@
             border: 2px solid black;
             overflow: auto;
             float:left;
-            background-color: rgba(255,255,255,0.3);
+            background-color: rgba(255,255,255,0.6);
             width: 25%;
 
         }
@@ -45,7 +45,7 @@
         .menuDiv{
             border: 2px solid black;
             float:right;
-            background-color: rgba(255,255,255,0.4);
+            background-color: rgba(255,255,255,0.6);
             margin-left: auto !important;
             width: 70%;
         }
@@ -68,9 +68,9 @@
 <div class="bottomPanel">
     <div class="playerInfoDiv" style="text-align: center">
        <br>
-         <b style="font-size: 30px;">Current Player:</b>
+         <b style="font-size: 2vw;">Aktualny gracz:</b>
         <br>
-     <p style="font-size: 45px">{{$currentPlayer}}</p>
+     <p style="font-size: 3.5vw">{{$currentPlayer}}</p>
     </div>
 
     <div class="menuDiv menuSizeDIv">

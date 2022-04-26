@@ -5,43 +5,27 @@ namespace App\Http\Controllers;
 use App\Models\Game_Play;
 use App\Models\Player;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\View;
 
 class gamePlayController extends Controller
 {
-    public function createGamePlay($playersID1,$playersID2, $playersID3,$playersID4,Request $request): \Illuminate\Http\RedirectResponse{
-        $gamePlay = new \App\Models\Game_Play;
-        $gamePlay->player_1 = (int)$playersID1;
-        $gamePlay->player_2 = (int)$playersID2;
-        if($playersID3 =='0') $gamePlay->player_3 = null;
-        else $gamePlay->player_3 = strval($playersID3);
-        if($playersID4 =='0') $gamePlay->player_4 = null;
-        else $gamePlay->player_4 = strval($playersID4);
-        $gamePlay->current_player = (int)$playersID1;
-        $gamePlay->rabbits=60;
-        $gamePlay->sheep=24;
-        $gamePlay->pigs=20;
-        $gamePlay->cows=12;
-        $gamePlay->horses=6;
-        $gamePlay->small_dogs=4;
-        $gamePlay->big_dogs=2;
-        $gamePlay->save();
-        $request->session()->put('gamePlayID',$gamePlay->id);
-        return redirect("lobby/pass/game_play/$gamePlay->id");
-    }
 
-    public function gamePlay(Request $request ,$id=0, $throw1 = 0, $throw2 = 0)
+    public function gamePlay(Request $request)
     {
         $game_playID = $request->session()->get('gamePlayID');
         if($game_playID == null) return redirect("lobby");
+        $throw1 = session('throw1');
+        $throw2 = session('throw2');
+        $this->setSessionGame(0,0);
         $gamePlay = Game_Play::find($game_playID);
+        $round = $this->isPlayerRound($gamePlay->current_player);
         $players = $this->getPlayers($game_playID);
         $checkIsWin=false;
         if($this->isWin(Player::find($gamePlay->current_player)))$checkIsWin=true;
         return View::make("layouts/game_play",["players"=> $players,"farm"=>$gamePlay,"currentPlayer"=>$this->getCurrentPlayerName($game_playID),
             'throw1'=>$throw1,'throw2'=>$throw2,
-            'isWin'=>$checkIsWin
+            'isWin'=>$checkIsWin,
+            'endRound'=> !$round
         ]);
     }
 
@@ -58,67 +42,91 @@ class gamePlayController extends Controller
     public function getCurrentPlayerName($id): string
     {
         $game_play = Game_Play::find($id);
-        return Player::find($game_play->current_player)->name;
+        return Player::find($game_play->current_player)->getPlayerName();
+    }
+
+    private function setSessionGame($throw1,$throw2){
+        session( [ 'throw1' => $throw1,'throw2'=>$throw2]);
+    }
+
+    private function isPlayerRound($id){
+        return Player::find($id)->round;
+    }
+
+    private function setRound($id, $round){
+       Player::find($id)->update(["round" =>$round]);
     }
 
     public function throwDice(Request $request)
     {
-        $greenDice = array('wolf','rabbits','rabbits','rabbits','rabbits','rabbits','rabbits','sheep','sheep','sheep','pigs','cows');
-        $redDice = array('fox','rabbits','rabbits','rabbits','rabbits','rabbits','rabbits','sheep','sheep','pigs','pigs','horses');
-        $throw1 = $greenDice[rand(0,11)];
-        $throw2 = $redDice[rand(0,11)];
-        $throws = array($throw1,$throw2);
-
         $game_playID = $request->session()->get('gamePlayID');
-        $game_play = Game_Play::find($game_playID);
-        $player = Player::find($game_play->current_player);
+        if($game_playID ==null) return redirect("lobby");
+        else {
+            $greenDice = array('wolf', 'rabbits', 'rabbits', 'rabbits', 'rabbits', 'rabbits', 'rabbits', 'sheep', 'sheep', 'sheep', 'pigs', 'cows');
+            $redDice = array('fox', 'rabbits', 'rabbits', 'rabbits', 'rabbits', 'rabbits', 'rabbits', 'sheep', 'sheep', 'pigs', 'pigs', 'horses');
+            $throw1 = $greenDice[rand(0, 11)];
+            $throw2 = $redDice[rand(0, 11)];
+            $throws = array($throw1, $throw2);
 
-        foreach($throws as $playerThrow){
-            if ($this->isHaveAnimals($player)) {
+            $game_play = Game_Play::find($game_playID);
+            $player = Player::find($game_play->current_player);
 
-                if ($playerThrow != 'fox' && $playerThrow != 'wolf') {
-                    $this->getFromFarm($playerThrow,$player,$game_play);
-                }
+            foreach ($throws as $playerThrow) {
+                if ($this->isHaveAnimals($player)) {
 
-                if ($playerThrow == 'fox') {
-                    if ($player->small_dogs > 0) {
-                        $player->update(['small_dogs' =>  $game_play->small_dogs - 1]);
-                        $game_play->update(['small_dogs' =>  $game_play->small_dogs +1]);
+                    if ($playerThrow != 'fox' && $playerThrow != 'wolf') {
+                        $this->getFromFarm($playerThrow, $player, $game_play);
                     }
-                    else {
-                        $game_play->update(['rabbits' =>  $game_play->rabbits + $player->rabbits]);
-                        $player->update(['rabbits' =>  0]);
-                    }
-                }
 
-                if ($playerThrow == 'wolf') {
-                    if ($player->big_dogs > 0) {
-                        $player->update(['big_dogs' =>  $game_play->big_dogs - 1]);
-                        $game_play->update(['big_dogs' =>  $game_play->big_dogs +1]);
+                    if ($playerThrow == 'fox') {
+                        if ($player->small_dogs > 0) {
+                            $player->update(['small_dogs' => $game_play->small_dogs - 1]);
+                            $game_play->update(['small_dogs' => $game_play->small_dogs + 1]);
+                        } else {
+                            $game_play->update(['rabbits' => $game_play->rabbits + $player->rabbits]);
+                            $player->update(['rabbits' => 0]);
+                        }
                     }
-                    else {
-                        $game_play->update(['rabbits' =>  $game_play->rabbits + $player->rabbits]);
-                        $game_play->update(['sheep' =>  $game_play->sheep + $player->sheep]);
-                        $game_play->update(['pigs' =>  $game_play->pigs + $player->pigs]);
-                        $game_play->update(['cows' =>  $game_play->cows + $player->cows]);
-                        $player->update(['rabbits' =>  0]);
-                        $player->update(['sheep' =>  0]);
-                        $player->update(['pigs' =>  0]);
-                        $player->update(['cows' =>  0]);
+
+                    if ($playerThrow == 'wolf') {
+                        if ($player->big_dogs > 0) {
+                            $player->update(['big_dogs' => $game_play->big_dogs - 1]);
+                            $game_play->update(['big_dogs' => $game_play->big_dogs + 1]);
+                        } else {
+                            $game_play->update(['rabbits' => $game_play->rabbits + $player->rabbits]);
+                            $game_play->update(['sheep' => $game_play->sheep + $player->sheep]);
+                            $game_play->update(['pigs' => $game_play->pigs + $player->pigs]);
+                            $game_play->update(['cows' => $game_play->cows + $player->cows]);
+                            $player->update(['rabbits' => 0]);
+                            $player->update(['sheep' => 0]);
+                            $player->update(['pigs' => 0]);
+                            $player->update(['cows' => 0]);
+                        }
                     }
-                }
-                }
-            else {
-                if ($throw1 == $throw2) {
-                    $player->update([$playerThrow => $player[$playerThrow] +1]);
-                    $game_play->update([$playerThrow =>  $game_play[$playerThrow] - 1]);
+                } else {
+                    if ($throw1 == $throw2) {
+                        $player->update([$playerThrow => $player[$playerThrow] + 1]);
+                        $game_play->update([$playerThrow => $game_play[$playerThrow] - 1]);
+                    }
                 }
             }
+            $player->save();
+            $game_play->save();
+            $this->setRound($game_play->current_player,false);
+            $this->setSessionGame($throw1,$throw2);
+            return redirect('game_play');
         }
-        $player->save();
-        $game_play->save();
-        $this->changePlayer($game_play);
-        return redirect("lobby/pass/game_play/$game_playID/$throw1/$throw2");
+    }
+
+    public function changePlayer(Request $request){
+        $game_playID = $request->session()->get('gamePlayID');
+        if($game_playID !=null) {
+            $game_play = Game_Play::find($game_playID);
+            $this->currentPlayerChange($game_play);
+            return redirect("game_play");
+        }
+        else
+        return redirect("lobby");
     }
 
     private function getFromFarm($animal ,$player, $farm){
@@ -147,7 +155,8 @@ class gamePlayController extends Controller
     }
 
 
-    private function changePlayer($game_play){
+
+    private function currentPlayerChange($game_play){
         $players = $this->getPlayers($game_play->id);
         $max = count($players) - 1;
         $nextPlayer=0;
@@ -170,8 +179,7 @@ class gamePlayController extends Controller
         $number= (int)$settings->get('number');
         if($number>0) $this->sell($player,$game_play,$animalToTrade,$forAnimal,$number);
         else $this->buy($player,$game_play,$animalToTrade,$forAnimal,$number);
-
-        return redirect("lobby/pass/game_play/$game_playID");
+        return redirect('game_play');
     }
 
     private function sell($player,$farm,$animalToTrade,$forAnimal,$number){
@@ -217,6 +225,6 @@ class gamePlayController extends Controller
             $player->big_dogs = 0;
             $player->save();
         }
-        return redirect("lobby/pass/game_play/$game_playID");
+        return redirect('game_play');
     }
 }

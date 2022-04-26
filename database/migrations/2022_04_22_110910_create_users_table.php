@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('players',function ($table){
+        Schema::create('users', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->integer('rabbits');
-            $table->integer('sheep');
-            $table->integer('pigs');
-            $table->integer('cows');
-            $table->integer('horses');
-            $table->integer('small_dogs');
-            $table->integer('big_dogs');
             $table->timestamps();
         });
     }
@@ -34,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::drop('players');
+        Schema::dropIfExists('users');
     }
-};
+}
