@@ -65,6 +65,7 @@ class Room extends Model
         return $this->columnsPlayers;
     }
 
+
     public function getUsers(): array
     {
         $user = array();

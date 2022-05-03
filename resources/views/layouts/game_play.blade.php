@@ -56,27 +56,25 @@
         }
 
     </style>
-
+    @livewireStyles
 </head>
 
 <body>
 
 <div class="boardDiv">
-    @include('players_list')
+    @livewire('players-list',['farm' =>$farm])
 </div>
 
 <div class="bottomPanel">
     <div class="playerInfoDiv" style="text-align: center">
-       <br>
-         <b style="font-size: 2vw;">Aktualny gracz:</b>
-        <br>
-     <p style="font-size: 3.5vw">{{$currentPlayer}}</p>
+        @livewire('player-info',['farm' =>$farm])
     </div>
 
     <div class="menuDiv menuSizeDIv">
-        @include('menu')
+        @livewire('user-interface',['gameID'=>$gameID])
     </div>
 </div>
+@livewireScripts
 </body>
 
 </html>

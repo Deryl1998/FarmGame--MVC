@@ -21,8 +21,7 @@ class isInRoom
         $lobby = Room::find(intval(session('userRoom')));
         if($lobby!=null) {
             if ($lobby->game_started == 1 && $lobby->isInRoom($playerID) == true) {
-                $request->session()->put('gamePlayID', $lobby->game_play_id);
-                return redirect("game_play");
+                return redirect()->action(\App\Http\Livewire\UserInterface::class,["gameID"=>$lobby->game_play_id]);
             }
 
             if ($lobby->isInRoom($playerID) == true)

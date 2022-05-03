@@ -53,17 +53,27 @@ class RoomController extends Controller
         }
     }
 
+    private function CountUsers($usersInRoom){
+        $count=0;
+        foreach($usersInRoom as $user) {
+            if($user->name!=null) $count++;
+        }
+        return $count;
+    }
+
     public function createGame(Request $settings){
         $roomID= session('userRoom');
         $room = Room::find($roomID);
         $usersInRoom = $room->getUsers();
+        if($this->CountUsers($usersInRoom)<2)  return redirect()->action(\App\Http\Livewire\Room::class,["idRoom"=>$roomID]);
         $idArray = array();
         foreach($usersInRoom as $user){
-            if($user!=null) $idArray[]= Player::createNewPlayer($user->id);
+            if($user->name!=null) $idArray[]= Player::createNewPlayer($user->id);
             else $idArray[] = null;
         }
         $gamePlayID = Game_Play::createGame($idArray);
         $room->gameStarted($gamePlayID);
+        return redirect()->action(\App\Http\Livewire\UserInterface::class,["gameID"=>$gamePlayID]);
     }
 
 

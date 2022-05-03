@@ -43,8 +43,9 @@ class Player extends Model
     use HasFactory;
     protected $table = 'players';
     protected $guarded = [];
-    function __construct() {
-    $this->user=null;
+    function __construct(array $attributes = []) {
+        parent::__construct($attributes);
+        $this->user=null;
     }
 
     static function createNewPlayer($userID): int
@@ -71,5 +72,19 @@ class Player extends Model
     public function getPlayerName()
     {
         return User::find($this->user)->name;
+    }
+
+    public function isHaveAnimals(): bool
+    {
+        if($this->rabbits == 0 && $this->sheep == 0 && $this->pigs == 0 &&
+            $this->cows == 0 &&  $this->horses == 0) return false;
+        return true;
+    }
+
+    public function isWin(): bool
+    {
+        if($this->rabbits > 0 && $this->sheep > 0 && $this->pigs > 0 &&
+            $this->cows > 0 &&  $this->horses > 0) return true;
+        return false;
     }
 }

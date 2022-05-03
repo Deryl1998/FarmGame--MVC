@@ -8,7 +8,7 @@
     @livewireStyles
 </head>
 <body>
-<livewire:lobby/>
+@livewire('all-rooms')
 @include('create-room')
 
 @livewireScripts

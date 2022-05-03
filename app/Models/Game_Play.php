@@ -68,4 +68,37 @@ class Game_Play extends Model
         $game->save();
         return $game->id;
     }
+
+    public function getPlayers(): array
+    {
+        return [\App\Models\Player::find($this->player_1), \App\Models\Player::find($this->player_2), \App\Models\Player::find($this->player_3),
+            \App\Models\Player::find($this->player_4)];
+    }
+
+    public function getCurrentPlayer(){
+        return \App\Models\Player::find($this->current_player);
+    }
+
+    private function setRound($id, $round){
+        \App\Models\Player::find($id)->update(["round" =>$round]);
+    }
+
+    public function changePlayer(){
+        $tab = ["player_1","player_2","player_3","player_4"];
+        $this->setRound($this->current_player,false);
+        $max = 1;
+        if($this->player_3!=null) $max++;
+        if($this->player_4!=null) $max++;
+        $nextPlayer=0;
+        for($i=0;$i<=$max;$i++){ // players loop
+            if($this->current_player == $this[$tab[$i]]){
+                $nextPlayer = ($this->current_player == $this[$tab[$max]])? $this[$tab[0]] : $this[$tab[$i+1]];
+                break;
+            }
+        }
+        $this->current_player = $nextPlayer;
+        $this->setRound($this->current_player,true);
+        $this->save();
+    }
+
 }

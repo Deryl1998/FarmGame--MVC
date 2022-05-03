@@ -21,7 +21,7 @@ class Room extends Component
 
     public function render(){
         $this->users = $this->getUsers($this->idRoom);
-        if($this->users == null) redirect()->action(RoomsList::class);
+        if($this->users == null) redirect()->action(AllRooms::class);
         if($this->users[0]['id'] == $this->currentUser) $this->isOwnerRoom = true;
         else $this->isOwnerRoom=false;
         return view('livewire.room')->layout("layouts.room",["idRoom"=>$this->idRoom]);

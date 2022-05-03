@@ -1,10 +1,10 @@
 
-<table id="players_list" class="table" style="border-width: 2px; text-align: center; width: 100% !important;">
+<table id="players_list" class="table" wire:poll.400ms style="border-width: 2px; text-align: center; width: 100% !important;">
 <thead>
 <tr style="font-size: 2vw;">
     <td style="padding: 0.2rem">Gracz</td>
-    <td style="padding: 0.2rem" >Króliki</td>
-    <td style="padding: 0.2rem">Owce</td>
+    <td style="padding: 0.2rem">Króliki</td>
+    <td style="padding: 0.2rem"> Owce</td>
     <td style="padding: 0.2rem" >Świnie</td>
     <td style="padding: 0.2rem" >Krowy</td>
     <td style="padding: 0.2rem" >Konie</td>
@@ -35,8 +35,9 @@
 <td> {{$farm['big_dogs']}}</td>
 </tr>
 @foreach($players as $player)
+    @if($player!=null)
 <tr style="font-size: 3vw !important;border: #000000">
-    <th> {{$player['name']}}</th>
+    <th> {{$player->getPlayerName()}}</th>
     <td> {{$player['rabbits']}}</td>
     <td> {{$player['sheep']}}</td>
     <td> {{$player['pigs']}}</td>
@@ -45,6 +46,7 @@
     <td> {{$player['small_dogs']}}</td>
     <td> {{$player['big_dogs']}}</td>
 </tr>
+    @endif
 @endforeach
 </tbody>
 </table>
