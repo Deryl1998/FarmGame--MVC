@@ -1,5 +1,5 @@
 
-<table id="players_list" class="table" wire:poll.400ms style="border-width: 2px; text-align: center; width: 100% !important;">
+<table id="players_list" class="table" wire:poll.1000ms style="border-width: 2px; text-align: center; width: 100% !important;">
 <thead>
 <tr style="font-size: 2vw;">
     <td style="padding: 0.2rem">Gracz</td>

@@ -24,7 +24,8 @@ return new class extends Migration
             $table->integer('small_dogs');
             $table->integer('big_dogs');
             $table->boolean('round');
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
         });
         Schema::table('players',function (Blueprint $table){
             $table->foreign('user')->references('id')->on('users')->onDelete('cascade');

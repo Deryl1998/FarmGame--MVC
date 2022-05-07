@@ -10,6 +10,7 @@
             <td></td>
         </tr>
         @foreach($rooms as $room)
+            @if($room->game_started != 1)
             <tr style="font-size: 2vw !important;">
                 <th style="padding: 2vw"> {{$room['name']}}</th>
 
@@ -26,6 +27,7 @@
                     </button>
                 </th>
             </tr>
+            @endif
         @endforeach
     </table>
 </div>

@@ -1,4 +1,4 @@
-<div wire:poll.500ms>
+<div wire:poll.1000ms>
     <br>
     <b style="font-size: 2vw;">Aktualny gracz:</b>
     <br>

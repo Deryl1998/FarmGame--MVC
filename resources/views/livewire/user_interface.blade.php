@@ -1,4 +1,4 @@
-<div wire:poll.1000ms xmlns:wire="http://www.w3.org/1999/xhtml">
+<div wire:poll.1500ms xmlns:wire="http://www.w3.org/1999/xhtml">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
         <style>
             .button {
@@ -125,9 +125,9 @@
                 <p style="font-size: 6vh;margin-left: 10%;width: auto !important;">Zwyciezca:<br> {{$currentPlayerName}}</p>
             </div>
             <div  style="float: right !important;width: 30%;margin-top: 5vh;margin-right: 15%">
-                <form action="{{action('App\Http\Controllers\gamePlayController@playAgain')}}" method="POST" role="form">
+                <form>
                 @csrf <!-- {{ csrf_field() }} -->
-                    <input class="button" style="font-size: 30px; width: auto !important;" type="submit" value="Zagraj ponownie">
+                    <input class="button" wire:click="playAgain()" style="font-size: 30px; width: auto !important;" type="submit" value="Zagraj ponownie">
                 </form>
             </div>
         </div>

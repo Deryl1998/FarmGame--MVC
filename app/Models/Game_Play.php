@@ -66,6 +66,9 @@ class Game_Play extends Model
         $game->small_dogs=4;
         $game->big_dogs=2;
         $game->save();
+        $firstPlayer =  Player::find($game->player_1);
+        $firstPlayer->round=1;
+        $firstPlayer->save();
         return $game->id;
     }
 

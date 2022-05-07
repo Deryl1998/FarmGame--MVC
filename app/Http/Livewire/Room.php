@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Http\Controllers\RoomController;
+use Illuminate\Http\Request;
 use Livewire\Component;
 
 class Room extends Component
@@ -13,10 +14,11 @@ class Room extends Component
     public $currentUser;
     private $room;
 
-    public function mount($idRoom){
+    public function mount($idRoom,Request $settings){
         $this->idRoom = $idRoom;
         $this->isOwnerRoom = false;
         $this->currentUser = session('userID');
+        $settings->session()->put('userRoom', $idRoom);
     }
 
     public function render(){
@@ -25,13 +27,6 @@ class Room extends Component
         if($this->users[0]['id'] == $this->currentUser) $this->isOwnerRoom = true;
         else $this->isOwnerRoom=false;
         return view('livewire.room')->layout("layouts.room",["idRoom"=>$this->idRoom]);
-    }
-
-    public function dehydrate(){
-        foreach($this->users as $user){
-            if($user['id']==$this->currentUser) return;
-        }
-        return redirect('lobby/list');
     }
 
     public function removeUser($id=null){

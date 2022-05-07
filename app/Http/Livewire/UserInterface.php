@@ -32,7 +32,6 @@ class UserInterface extends Component
 
     public function render()
     {
-
         $gamePlay = Game_Play::find($this->gameID);
         $playerID = session('userID');
         $this->checkPlayerRound($playerID);
@@ -152,6 +151,36 @@ class UserInterface extends Component
         }
     }
 
+
+    public function playAgain(){
+        $gamePlay = Game_Play::find($this->gameID);
+        $players = $gamePlay->getPlayers();
+        $gamePlay->current_player = $players[0]['id'];
+        $gamePlay->rabbits=60;
+        $gamePlay->sheep=24;
+        $gamePlay->pigs=20;
+        $gamePlay->cows=12;
+        $gamePlay->horses=6;
+        $gamePlay->small_dogs=4;
+        $gamePlay->big_dogs=2;
+        $gamePlay->save();
+        $firstPlayer = true;
+        foreach ($players as $player){
+            $player->rabbits = 0;
+            $player->sheep = 0;
+            $player->pigs = 0;
+            $player->cows = 0;
+            $player->horses = 0;
+            $player->small_dogs = 0;
+            $player->big_dogs = 0;
+            if($firstPlayer){
+                $player->round = 1;
+                $firstPlayer = false;
+            }
+            else $player->round = 0;
+            $player->save();
+        }
+    }
 
     //for Display
     public function setAnimalToTrade($animal){

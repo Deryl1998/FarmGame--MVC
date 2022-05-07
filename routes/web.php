@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 //playerController
 Route::get('/','App\Http\Controllers\UserController@getStartView');
 Route::post('user','App\Http\Controllers\UserController@createUser');
@@ -26,13 +27,9 @@ Route::post('create-game','App\Http\Controllers\RoomController@createGame');
 //RoomComponent
 Route::get('lobby/room/joined/{idRoom}', App\Http\Livewire\Room::class)->middleware("LastUserActivity","isUserInRoom");
 Route::get('lobby/list/rooms', App\Http\Livewire\AllRooms::class)->middleware("LastUserActivity");
-Route::get('lobby/list', App\Http\Livewire\AllRooms::class);
+Route::get('lobby/list', App\Http\Livewire\AllRooms::class)->middleware("LastUserActivity");
 
-//GamePlayController
-Route::get('game_play/{playersID1}/{playersID2}/{playersID3}/{playersID4}','App\Http\Controllers\gamePlayController@createGamePlay');
+//UserInterfaceComponent
 Route::get('game_play/{gameID}',App\Http\Livewire\UserInterface::class);
-Route::get('throw','App\Http\Controllers\gamePlayController@throwDice');
-Route::get('game_play/next_player','App\Http\Controllers\gamePlayController@changePlayer');
-Route::post('game_play/trade','App\Http\Controllers\gamePlayController@trade');
 Route::post('game_play/play/again','App\Http\Controllers\gamePlayController@playAgain');
 

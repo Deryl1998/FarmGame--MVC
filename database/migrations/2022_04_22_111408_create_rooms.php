@@ -22,7 +22,8 @@ class CreateRooms extends Migration
             $table->bigInteger('user_2')->unsigned()->nullable();
             $table->bigInteger('user_3')->unsigned()->nullable();
             $table->bigInteger('user_4')->unsigned()->nullable();
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
         });
         Schema::table('rooms',function (Blueprint $table){
             $table->foreign('user_1')->references('id')->on('users')->onDelete('cascade');
